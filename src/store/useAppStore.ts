@@ -7,7 +7,7 @@ export interface Attraction {
   lat: number;
   lng: number;
   description: string;
-  safety_level: string;
+  safety_level: 'safe' | 'caution' | 'danger';
 }
 
 export interface ItineraryDay {
@@ -65,7 +65,7 @@ interface AppState {
 
 export const useAppStore = create<AppState>()(
   persist(
-    (set, get) => ({
+    (set, _get) => ({
       user: null,
       session: null,
       digitalId: null,
@@ -100,15 +100,20 @@ export const useAppStore = create<AppState>()(
         set({ trip: data });
       },
       saveTrip: async (tripData: any) => {
-        const { data, error } = await supabase.from('trips').upsert(tripData, { returning: 'representation' });
+        const { data, error } = await supabase.from('trips').upsert(tripData).select();
         if (error) throw error;
-        set({ trip: data[0] });
-        return data[0];
+        if (data && Array.isArray(data) && data.length > 0) {
+          set({ trip: data[0] });
+          return data[0];
+        }
+        // fallback if no data returned
+        return null;
       },
       createAlert: async (alert: any) => {
-        const { data, error } = await supabase.from('alerts').insert(alert);
+        const { data, error } = await supabase.from('alerts').insert(alert).select();
         if (error) throw error;
-        return data;
+        // Supabase returns an array; return first element for consistency
+        return data && Array.isArray(data) && data.length > 0 ? data[0] : null;
       },
     }),
     {

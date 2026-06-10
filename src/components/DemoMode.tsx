@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface DemoModeProps {
@@ -21,7 +21,7 @@ export default function DemoMode({ showMicVisualizer = false, onComplete }: Demo
   const [stepIdx, setStepIdx] = useState(0);
   const [visible, setVisible] = useState(true);
   const [bars, setBars] = useState<number[]>(Array(12).fill(4));
-  const animFrameRef = useRef<number>();
+  const animFrameRef = useRef<number | null>(null);
 
   // Animate mic visualizer bars
   useEffect(() => {

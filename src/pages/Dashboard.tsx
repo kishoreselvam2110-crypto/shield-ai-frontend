@@ -8,12 +8,6 @@ interface DashboardProps {
   setView: (view: 'dashboard' | 'digital-id' | 'trip-planner' | 'wilderness' | 'admin') => void;
 }
 
-const cardGlows: Record<string, string> = {
-  'digital-id':   '#00FFFF',
-  'trip-planner': '#8B5CF6',
-  'wilderness':   '#FF00FF',
-  'admin':        '#F59E0B',
-};
 
 const menuItems = [
   {
