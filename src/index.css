@@ -1,0 +1,163 @@
+/* SHIELD AI Global Styles - premium dark theme with neon accents */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+:root {
+  --font-primary: 'Inter', sans-serif;
+  --color-bg: #030306;
+  --color-primary: #00f0ff; /* cyan */
+  --color-primary-dark: #0099cc;
+  --color-secondary: #ff007f; /* magenta */
+  --color-success: #16a34a; /* green */
+  --color-warning: #fbbf24; /* amber */
+  --color-danger: #ff3131; /* red */
+  --color-glow-idle: rgba(0,240,255,0.4);
+  --color-glow-hover: rgba(0,200,255,0.6);
+  --color-glow-sos: rgba(255,0,127,0.6);
+  --color-glow-breach: rgba(255,49,49,0.6);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-primary);
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--color-bg);
+  overflow-x: hidden;
+}
+
+/* Glass-card base */
+.glass-card {
+  background: rgba(10,10,12,0.65);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 12px var(--color-glow-idle), 0 0 24px rgba(0,240,255,0.2);
+  transition: all 0.25s ease;
+}
+.glass-card:hover {
+  box-shadow: 0 0 20px var(--color-glow-hover), 0 0 40px rgba(0,240,255,0.3);
+}
+
+/* Glow utilities */
+.glow-idle { box-shadow: 0 0 12px var(--color-glow-idle), 0 0 24px rgba(0,240,255,0.2); }
+.glow-hover { box-shadow: 0 0 20px var(--color-glow-hover), 0 0 40px rgba(0,240,255,0.3); }
+.glow-sos { box-shadow: 0 0 20px var(--color-glow-sos), 0 0 40px rgba(255,0,127,0.3); }
+.glow-breach { box-shadow: 0 0 20px var(--color-glow-breach), 0 0 40px rgba(255,49,49,0.3); }
+
+/* Card hover effect */
+.card-hover {
+  transform: scale(1.02);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px var(--color-primary), 0 0 40px rgba(0,240,255,0.4);
+}
+
+/* Button hover effect */
+.btn-hover {
+  transform: scale(1.02);
+  background-color: var(--color-primary-dark) !important;
+}
+
+/* Micro‑animation helpers */
+.fade-scale-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+.fade-scale-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 300ms ease-out;
+}
+.fade-scale-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+.fade-scale-exit-active {
+  opacity: 0;
+  transform: scale(0.97);
+  transition: all 200ms ease-in;
+}
+
+/* Pulse animation for SOS button */
+@keyframes pulse-sos {
+  0% { transform: scale(1); box-shadow: 0 0 12px var(--color-glow-sos); }
+  50% { transform: scale(1.07); box-shadow: 0 0 24px var(--color-glow-sos); }
+  100% { transform: scale(1); box-shadow: 0 0 12px var(--color-glow-sos); }
+}
+.sos-pulse { animation: pulse-sos 1.8s infinite; }
+
+/* Breach pulse */
+@keyframes breach-pulse {
+  0% { box-shadow: 0 0 12px var(--color-glow-breach); }
+  50% { box-shadow: 0 0 24px var(--color-glow-breach); }
+  100% { box-shadow: 0 0 12px var(--color-glow-breach); }
+}
+.breach-pulse { animation: breach-pulse 1.2s infinite; }
+
+/* Map marker custom style */
+.shield-marker {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--color-primary); border: 2px solid #fff;
+  box-shadow: 0 0 12px var(--color-primary), 0 0 24px rgba(0,240,255,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 900; color: #000;
+  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Toast styling */
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+.toast {
+  min-width: 260px;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: toast-slide-in 0.5s forwards;
+}
+.toast.error { background: rgba(255,49,49,0.9); }
+.toast.warning { background: rgba(255,191,71,0.9); }
+.toast.success { background: rgba(22,163,74,0.9); }
+.toast.info { background: rgba(0,240,255,0.9); }
+
+@keyframes toast-slide-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Demo mode path animation */
+@keyframes demo-path { from { stroke-dashoffset: 100%; } to { stroke-dashoffset: 0; } }
+.demo-path { stroke-dasharray: 100; animation: demo-path 3s ease-in-out infinite; }
+
+/* Ripple effect for mobile */
+.ripple {
+  position: relative; overflow: hidden;
+}
+.ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.2);
+  border-radius: inherit;
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.4s, opacity 0.4s;
+}
+.ripple:active::after { transform: scale(1); opacity: 0.5; }
